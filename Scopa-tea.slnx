@@ -11,7 +11,9 @@
   <Project Path="LiteNetLib.csproj" />
   <Project Path="PurrNet.Edgegap.Runtime.csproj" />
   <Project Path="PurrNet.Profiler.Deltas.csproj" />
+  <Project Path="ParrelSync.csproj" />
   <Project Path="PurrNetLobby_Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="PurrNet.Steam.Runtime.csproj" />
   <Project Path="PurrNet.Profiler.Editor.csproj" />
   <Project Path="PurrNet.Examples.csproj" />
