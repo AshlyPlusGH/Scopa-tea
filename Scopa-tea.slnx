@@ -19,4 +19,5 @@
   <Project Path="PurrNet.Examples.csproj" />
   <Project Path="ToolbarExtender.Editor.csproj" />
   <Project Path="PurrNet.Steam.Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
 </Solution>
