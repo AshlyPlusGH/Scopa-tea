@@ -1,0 +1,24 @@
+using UnityEngine;
+
+[CreateAssetMenu(
+    fileName = "#SCRIPTNAME#",
+    menuName = "Custom/#SCRIPTNAME#",
+    order = 0
+)]
+public class #SCRIPTNAME# : ScriptableObject
+{
+    // INTERNAL DATA //
+
+    [SerializeField, Label("Object Name")] 
+    private string soDATA_objectName = "NO NAME";
+
+    ////
+    
+    [Header("-Type-")]
+
+    // POINTERS //
+
+    public string STAT_objectName => soDATA_objectName;
+
+    ////
+}
