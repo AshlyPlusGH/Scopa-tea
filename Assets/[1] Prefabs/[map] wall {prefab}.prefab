@@ -349,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1532552507873537683}
   m_Layer: 0
-  m_Name: '[map] wall {prefab}'
+  m_Name: '[Map] wall {prefab}'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

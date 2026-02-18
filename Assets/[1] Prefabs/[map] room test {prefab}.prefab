@@ -187,7 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1294991421367716335}
   m_Layer: 0
-  m_Name: '[map] room test {prefab}'
+  m_Name: '[Map] room test {prefab}'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

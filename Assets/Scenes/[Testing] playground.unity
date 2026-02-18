@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogColor: {r: 1, g: 0, b: 0, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.1
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -1257,6 +1257,7 @@ GameObject:
   - component: {fileID: 825601359}
   - component: {fileID: 825601358}
   - component: {fileID: 825601360}
+  - component: {fileID: 825601361}
   m_Layer: 0
   m_Name: '[Network] Manager'
   m_TagString: Untagged
@@ -1286,7 +1287,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 825601356}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc64ff707d914a64e95f2ac0bf554c09, type: 3}
   m_Name: 
@@ -1311,11 +1312,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkManager
   _stopPlayingOnDisconnect: 0
-  _startServerFlags: 9
-  _startClientFlags: 7
+  _startServerFlags: 0
+  _startClientFlags: 0
   _cookieScope: 1
   _dontDestroyOnLoad: 0
-  _transport: {fileID: 825601358}
+  _transport: {fileID: 825601361}
   _networkPrefabs: {fileID: 11400000, guid: 21efa041c667c58439876c3cc3b3cd9f, type: 2}
   _networkAssets: {fileID: 0}
   _networkRules: {fileID: 11400000, guid: d8799083b96579a42b8b2d03e4ceae98, type: 2}
@@ -1345,6 +1346,24 @@ MonoBehaviour:
   - {fileID: 446755300}
   - {fileID: 122068347}
   - {fileID: 1328497131}
+--- !u!114 &825601361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825601356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332e746c3c3253246aacad4d5559f1fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.Transports.PurrTransport
+  _masterServer: https://purrtransport.purrservers.com/
+  _roomName: b3824c359d49422ba97c3ce865f6a6b4
+  _region: france
+  _host: purrtransport-france.purrservers.com
+  _timeoutInSeconds: 1
+  _pollEventsInUpdate: 0
 --- !u!1001 &844781332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1407,6 +1426,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
   m_PrefabInstance: {fileID: 844781332}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &878653812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 878653813}
+  m_Layer: 0
+  m_Name: -geometry-
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &878653813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878653812}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1418780434}
+  m_Father: {fileID: 1371540083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1057119770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1421,7 +1472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.95
+      value: -10.68
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1429,7 +1480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.12
+      value: -3.91
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1786,7 +1837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.84
+      value: -11.92
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1794,7 +1845,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.23
+      value: 5.56
       objectReference: {fileID: 0}
     - target: {fileID: 7956618225307067203, guid: fe3e005c45bb33447b430a31968ab4a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1863,6 +1914,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 878653813}
   - {fileID: 1875273432}
   - {fileID: 595180698}
   m_Father: {fileID: 0}
@@ -1877,7 +1929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1418780434}
   m_Layer: 0
-  m_Name: map
+  m_Name: '[Map]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1891,8 +1943,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418780433}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: -1.23, z: -3}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1901,7 +1953,7 @@ Transform:
   - {fileID: 504735253}
   - {fileID: 653740511}
   - {fileID: 4798508704429270460}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 878653813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1424017914
 GameObject:
@@ -3242,7 +3294,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 559210374}
-  - {fileID: 1418780434}
   - {fileID: 1371540083}
   - {fileID: 431599939}
   - {fileID: 614078119}
