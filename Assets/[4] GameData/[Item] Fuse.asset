@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f6a22534f65094b8a50c24acf30b14, type: 3}
   m_Name: '[Item] Fuse'
   m_EditorClassIdentifier: Assembly-CSharp::soDATA_Item
-  soDATA_itemName: NO NAME
+  soDATA_itemName: Fuse

@@ -4,6 +4,7 @@
   <Project Path="PurrNet.Runtime.csproj" />
   <Project Path="NaughtyAttributes.Editor.csproj" />
   <Project Path="PurrNetLobbySetup.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="PurrNet.Editor.csproj" />
   <Project Path="Unity.PurrNet.Codegen.csproj" />
   <Project Path="PurrNet.Profiler.Deltas.Editor.csproj" />
@@ -11,7 +12,6 @@
   <Project Path="LiteNetLib.csproj" />
   <Project Path="PurrNet.Edgegap.Runtime.csproj" />
   <Project Path="PurrNet.Profiler.Deltas.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="ParrelSync.csproj" />
   <Project Path="PurrNetLobby_Editor.csproj" />
   <Project Path="PurrNet.Steam.Runtime.csproj" />

@@ -22,3 +22,23 @@ MonoBehaviour:
     prefab: {fileID: 6584875077998625806, guid: 3b4f41bc7c472a04bbb33694644aa5bc, type: 3}
     pooled: 0
     warmupCount: 5
+  - guid: 5e6064e324cedf34bbeb1496594cffd8
+    prefab: {fileID: 7205539426647208243, guid: 5e6064e324cedf34bbeb1496594cffd8, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - guid: a8fd0dcc48b91f2419a08bce0cc91639
+    prefab: {fileID: 3202110717718162410, guid: a8fd0dcc48b91f2419a08bce0cc91639, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - guid: 3a9712d132cc382498be0af6824c8abb
+    prefab: {fileID: 1715045843930419271, guid: 3a9712d132cc382498be0af6824c8abb, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - guid: ab7058659519e3444a6489a5c22eb347
+    prefab: {fileID: 8979575721368089015, guid: ab7058659519e3444a6489a5c22eb347, type: 3}
+    pooled: 0
+    warmupCount: 5
+  - guid: 5010e335aeee4c640aefbe9252ff29ff
+    prefab: {fileID: 4759107684274075865, guid: 5010e335aeee4c640aefbe9252ff29ff, type: 3}
+    pooled: 0
+    warmupCount: 5
