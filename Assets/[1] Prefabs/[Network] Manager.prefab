@@ -77,13 +77,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 0}
   _playerPrefab: {fileID: 6584875077998625806, guid: 3b4f41bc7c472a04bbb33694644aa5bc, type: 3}
   _ignoreNetworkRules: 0
-  spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  spawnPoints: []
 --- !u!114 &4002898232011056596
 MonoBehaviour:
   m_ObjectHideFlags: 0

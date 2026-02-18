@@ -1107,6 +1107,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 614078119}
     m_Modifications:
+    - target: {fileID: 2033531179959605128, guid: 61d64829f07751942b63b76626812653, type: 3}
+      propertyPath: spawnPoints.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2033531179959605128, guid: 61d64829f07751942b63b76626812653, type: 3}
+      propertyPath: 'spawnPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1057119771}
+    - target: {fileID: 2033531179959605128, guid: 61d64829f07751942b63b76626812653, type: 3}
+      propertyPath: 'spawnPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 169311908}
+    - target: {fileID: 2033531179959605128, guid: 61d64829f07751942b63b76626812653, type: 3}
+      propertyPath: 'spawnPoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 446755300}
+    - target: {fileID: 2033531179959605128, guid: 61d64829f07751942b63b76626812653, type: 3}
+      propertyPath: 'spawnPoints.Array.data[3]'
+      value: 
+      objectReference: {fileID: 122068347}
+    - target: {fileID: 2033531179959605128, guid: 61d64829f07751942b63b76626812653, type: 3}
+      propertyPath: 'spawnPoints.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1328497131}
     - target: {fileID: 9025874354254984222, guid: 61d64829f07751942b63b76626812653, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1937,7 +1961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1451937721
 Transform:
   m_ObjectHideFlags: 0
@@ -2739,7 +2763,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2073040756
 Transform:
   m_ObjectHideFlags: 0
