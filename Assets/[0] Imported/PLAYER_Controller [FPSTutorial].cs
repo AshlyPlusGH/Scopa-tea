@@ -11,6 +11,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float jumpForce = 1f;
     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float mass = 1f;
     [SerializeField] private float groundCheckDistance = 0.2f;
 
     [Header("Look Settings")]
@@ -73,6 +74,7 @@ public class PlayerController : NetworkBehaviour
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
         float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
+        // Horizontal movement
         characterController.Move(moveDirection * currentSpeed * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -80,8 +82,23 @@ public class PlayerController : NetworkBehaviour
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
         }
 
-        velocity.y += gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+        // Apply gravity
+        velocity.y += mass * gravity * Time.deltaTime;
+
+        // Vertical movement
+        CollisionFlags flags = characterController.Move(velocity * Time.deltaTime);
+
+        // Grounded reset
+        if ((flags & CollisionFlags.Below) != 0 && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+
+        // Ceiling reset
+        if ((flags & CollisionFlags.Above) != 0 && velocity.y > 0)
+        {
+            velocity.y = 0f;
+        }
     }
 
     private void HandleRotation()

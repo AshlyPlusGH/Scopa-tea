@@ -1,5 +1,6 @@
 using UnityEngine;
 using PurrNet;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class DraggableObject : NetworkBehaviour
@@ -10,23 +11,35 @@ public class DraggableObject : NetworkBehaviour
     private Rigidbody rb;
 
     private Vector3 offset;
-    private float dragDistance;
+    private float dragDistance = 5f;
+    private float interactDistance = 8f;
+
+    [SerializeField] private Image crosshairInput;
+    static Image crosshair;
 
     float dragSpeed = 12f;
+
+    bool isSetup;
 
     protected override void OnSpawned()
     {
         base.OnSpawned();
+
+        if (crosshair != null){ return; } crosshair = crosshairInput;
 
         cam = FindFirstObjectByType<DraggableObjectCamera>().GetComponent<Camera>();
         rb = GetComponent<Rigidbody>();
 
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
+        isSetup = true;
     }
 
     void OnMouseDown()
     {
+        if (!QueryCloseToCam()){ return; }
+
         if (isHeld.value)
             return;
 
@@ -48,6 +61,8 @@ public class DraggableObject : NetworkBehaviour
 
     void OnMouseDrag()
     {
+        if (!QueryCloseToCam()){ return; }
+
         if (!isHeld.value)
             return;
 
@@ -61,10 +76,19 @@ public class DraggableObject : NetworkBehaviour
 
     void OnMouseUp()
     {
+        if (!QueryCloseToCam()){ return; }
+
         rb.useGravity = true;
 
         // Tell server we released it
         RequestSetHeldRpc(false);
+    }
+
+    bool QueryCloseToCam()
+    {
+        if (cam == null){return false;}
+
+        return (interactDistance > Vector3.Distance(cam.transform.position, transform.position));
     }
 
     // -------------------------
