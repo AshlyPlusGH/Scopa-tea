@@ -54,10 +54,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.32
-  m_Height: 3.03
+  m_Radius: 0.17
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 1.78, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &8847735215217315601
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -624,13 +624,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 3.5
-  m_Radius: 0.4
+  m_Height: 2
+  m_Radius: 0.26
   m_SlopeLimit: 45
   m_StepOffset: 0.2
   m_SkinWidth: 0.005
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.75, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &-5506923167117169616
 MonoBehaviour:
   m_ObjectHideFlags: 0
