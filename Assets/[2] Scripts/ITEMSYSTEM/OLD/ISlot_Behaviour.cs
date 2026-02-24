@@ -7,7 +7,7 @@ public class ISlot_Behaviour : NetworkBehaviour, ISlot
 {
     [SerializeField] private Transform snapPoint;
 
-    private SyncVar<string> heldItem = new();
+    [SerializeField] private SyncVar<string> heldItem = new();
     public string HeldItem => heldItem.value;
 
     public int SlotId { get; private set; }

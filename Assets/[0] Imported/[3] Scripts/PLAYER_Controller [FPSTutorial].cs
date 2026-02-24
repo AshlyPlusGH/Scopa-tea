@@ -20,7 +20,7 @@ public class PlayerController : NetworkBehaviour
 
     [Header("References")]
     [SerializeField] private CinemachineCamera playerCamera;
-    [SerializeField] private CinemachineCamera playerMonsterCamera;
+    [SerializeField] private Light playerAuraLight;
     
     private CharacterController characterController;
     private Vector3 velocity;
@@ -33,7 +33,7 @@ public class PlayerController : NetworkBehaviour
         enabled = isOwner; //Disables this Script if Local Player is not Owner!
 
         playerCamera.gameObject.SetActive(isOwner);
-        playerMonsterCamera.gameObject.SetActive(isOwner);
+        playerAuraLight.gameObject.SetActive(isOwner);
     }
 
     private void OnEnable()
@@ -108,7 +108,7 @@ public class PlayerController : NetworkBehaviour
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
         playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        playerMonsterCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        //playerMonsterCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
 
         transform.Rotate(Vector3.up * mouseX);
     }
