@@ -1,7 +1,5 @@
 using UnityEngine;
 using PurrNet;
-using PurrNet.Modules;
-using System.Drawing;
 
 public class ITEM_Behaviour : NetworkBehaviour
 {
@@ -25,46 +23,44 @@ public class ITEM_Behaviour : NetworkBehaviour
             case enum_ITEM_State.None:
                 SetPhysics();
                 SetDraggable(true);
-                SetPickupEnabled(true);
                 break;
             case enum_ITEM_State.Held:
                 SetPhysics(true, true);
                 SetDraggable(false);
-                SetPickupEnabled(false);
                 break;
             case enum_ITEM_State.Loose:
                 SetPhysics();
                 SetDraggable(true);
-                SetPickupEnabled(true);
                 break;
             case enum_ITEM_State.Stored:
                 SetPhysics(true, true);
                 SetDraggable(false);
-                SetPickupEnabled(true);
                 break;
         }
     }
-
-    public void SetPhysics(bool isKinematic = false, bool haltMovement = false)
-    {
-        pointer.physics.isKinematic = isKinematic;
-        if (haltMovement){ HaltMovement(); }
-    }
-        private void HaltMovement(){ pointer.physics.linearVelocity = Vector3.zero; pointer.physics.angularVelocity = Vector3.zero; }
-    public void SetDraggable(bool enabled){ pointer.draggable.enabled = enabled; }
-    public void SetPickupEnabled(bool enabled){ pointer.pickup.enabled = enabled; }
-    public void SetSlotting(bool enabled){ pointer.inSlot.enabled = enabled; }
-
-    [ServerRpc]
-    public void SetOwnerFull(PlayerID newOwner)
-    {
-        GlobalOwnershipModule ownershipModule = pointer.networkManager.GetModule<GlobalOwnershipModule>(true);
-        ownershipModule.GiveOwnership(this, newOwner);
-        ownershipModule.GiveOwnership(pointer.pickup, newOwner);
-        ownershipModule.GiveOwnership(pointer.draggable, newOwner);
-        ownershipModule.GiveOwnership(pointer.inSlot, newOwner);
-        ownershipModule.GiveOwnership(pointer.networkTransform, newOwner);
-    }
+    public void SetPhysics(bool isKinematic = false, bool haltMovement = false){ RPC_UPDATESERVER_SetPhysics(isKinematic, haltMovement); }
+        public void SettingPhysics(bool isKinematic = false, bool haltMovement = false)
+        {
+            pointer.physics.isKinematic = isKinematic;
+            if (haltMovement){ HaltMovement(); }
+        }
+            private void HaltMovement(){ pointer.physics.linearVelocity = Vector3.zero; pointer.physics.angularVelocity = Vector3.zero; }
+        [ServerRpc]
+        private void RPC_UPDATESERVER_SetPhysics(bool isKinematic = false, bool haltMovement = false){ RPC_UPDATECLIENTS_SetPhysics(isKinematic, haltMovement); }
+        [ObserversRpc]
+        private void RPC_UPDATECLIENTS_SetPhysics(bool isKinematic = false, bool haltMovement = false){ SettingPhysics(isKinematic, haltMovement); }
+    public void SetDraggable(bool enabled){ RPC_UPDATESERVER_SetDraggable(enabled); }
+        private void SettingDraggable(bool enabled){ pointer.draggable.enabled = enabled; }
+        [ServerRpc] private void RPC_UPDATESERVER_SetDraggable(bool enabled){ RPC_UPDATECLIENTS_SetDraggable(enabled); }
+        [ObserversRpc] private void RPC_UPDATECLIENTS_SetDraggable(bool enabled){ SettingDraggable(enabled); }
+    public void SetPickupEnabled(bool enabled){ RPC_UPDATESERVER_SetPickupEnabled(enabled); }
+        private void SettingPickupEnabled(bool enabled){ pointer.pickup.enabled = enabled; }
+        [ServerRpc] private void RPC_UPDATESERVER_SetPickupEnabled(bool enabled){ RPC_UPDATECLIENTS_SetPickupEnabled(enabled); }
+        [ObserversRpc] private void RPC_UPDATECLIENTS_SetPickupEnabled(bool enabled){ SettingPickupEnabled(enabled); }
+    public void SetSlotting(bool enabled){ RPC_UPDATESERVER_SetSlotting(enabled); }
+        private void SettingSlotting(bool enabled){ pointer.inSlot.enabled = enabled; }
+        [ServerRpc] private void RPC_UPDATESERVER_SetSlotting(bool enabled){ RPC_UPDATECLIENTS_SetSlotting(enabled); }
+        [ObserversRpc] private void RPC_UPDATECLIENTS_SetSlotting(bool enabled){ SettingSlotting(enabled); }
 
     public void ResetLocalPosition(Transform parent = null){ RPC_UPDATESERVER_ResetLocalPosition(parent); }
         [ServerRpc]
