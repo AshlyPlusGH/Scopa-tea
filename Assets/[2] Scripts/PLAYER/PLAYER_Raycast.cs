@@ -6,17 +6,13 @@ public class PLAYER_Raycast : MonoBehaviour
 
     public GameObject observedObject {get; private set;}
 
-    void Awake()
-    {
-        Setup();
-    }
+    void Awake(){ Setup(); }
+    void Setup(){ if (targetCam == null){ targetCam = FindFirstObjectByType<Camera>(); } }
 
     void Update()
     {
         observedObject = GetObservedObject();
     }
-
-    void Setup(){ if (targetCam == null){ targetCam = FindFirstObjectByType<Camera>(); } }
 
     public GameObject GetObservedObject(float maxDistance = Mathf.Infinity, LayerMask layerMask = new ())
     { 
@@ -36,7 +32,6 @@ public class PLAYER_Raycast : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, maskToUse))
         {
             GameObject hitObject = hit.collider.gameObject;
-            Debug.Log("Hit: " + hitObject.name);
             return hitObject;
         }
 

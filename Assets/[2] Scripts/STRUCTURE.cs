@@ -5,28 +5,23 @@ using System.Linq;
 
 public class STRUCTURE : NetworkBehaviour
 {
-    [SerializeField] protected bool INSPECTOR_isPowered;
+    [Header("Inspector Only Vars: Do not change or reference except to update their status!")]
+
+    [SerializeField] protected bool isPowered;
     public List<STRUCTURE_Generator> INSPECTOR_inputGenerators = new();
 
     [Space(10)]
 
     public List<GameObject> powerDependantComponents = new();
     
+    protected readonly List<STRUCTURE_Generator> generators = new();
+    public bool STAT_isPowered => isPowered;
 
-    //Internal Only Vars
-        protected readonly List<STRUCTURE_Generator> generators = new();
-
-        // Server-side authoritative state
-        protected bool isPoweredServer;
-        // Client-side cached state
-        protected bool isPoweredClient;
-
-    void Awake()
+    void Awake(){ Setup(); }
+    /// <summary> Local non-networked Setup method </summary>
+    void Setup()
     {
-        INSPECTOR_isPowered = isPoweredClient;
-
-        foreach (var source in INSPECTOR_inputGenerators)
-            generators.Add(source);
+        foreach (var source in INSPECTOR_inputGenerators){ generators.Add(source); }
 
         UpdateComponents();
     }
@@ -35,61 +30,38 @@ public class STRUCTURE : NetworkBehaviour
     {
         base.OnSpawned();
 
-        // Subscribe to generator events on server only
-        foreach (var src in generators)
-            src.OnPowerChanged += OnSourcePowerChanged;
+        foreach (var src in generators){ src.onPowerChanged += OnSourcePowerChanged; }
 
-        EvaluatePowerServer();
+        UpdatePowerState();
     }
-
     protected override void OnDespawned()
     {
         base.OnDespawned();
 
-        foreach (var src in generators)
-            src.OnPowerChanged -= OnSourcePowerChanged;
+        foreach (var src in generators){ src.onPowerChanged -= OnSourcePowerChanged; }
     }
 
-    // Called only on server when a generator changes
-    protected void OnSourcePowerChanged(STRUCTURE_Generator _)
+    /// <summary> Runs when a Source's Powering bool changes </summary>
+    protected void OnSourcePowerChanged(STRUCTURE_Generator callSource){ UpdatePowerState(); }
+    protected void UpdatePowerState(){ SetPowerState(AnySourcesPowered()); } //Internal Call: Updates all clients when power state changes on any one source in case no more sources powering!
+    public void SetPowerState(bool state){ RPC_UPDATESERVER_SetPowerState(state); } //Public Call
+        private void SettingPowerState(bool powered)
+        {
+            isPowered = powered;
+
+            UpdateComponents();
+        }
+        [ServerRpc] //Call Server: Method will run on Server!
+        protected void RPC_UPDATESERVER_SetPowerState(bool powered){ RPC_UPDATECLIENTS_SetPowerState(powered); } //Update all Clients
+        [ObserversRpc] //Calls all Clients: Method will run on Client
+        private void RPC_UPDATECLIENTS_SetPowerState(bool powered){ SettingPowerState(powered); } //Trigger Local Function on Client Instance
+
+    public bool AnySourcesPowered()
     {
-        EvaluatePowerServer();
+        return generators.Count > 0 && generators.Any(s => s.STAT_isPowering);
     }
 
-    // SERVER: authoritative evaluation
-    protected void EvaluatePowerServer()
-    {
-        bool powered = AllSourcesPowered();
-
-        if (powered == isPoweredServer)
-            return;
-
-        isPoweredServer = powered;
-
-        // Notify all clients
-        RpcSetPowerState(powered);
-    }
-
-    // CLIENT: receives authoritative state
-    [ServerRpc]
-    protected void RpcSetPowerState(bool powered)
-    {
-        isPoweredClient = powered;
-        INSPECTOR_isPowered = isPoweredClient;
-
-        Debug.Log($"{name} powered (client): {powered}");
-
-        // Trigger client-side effects
-        UpdateComponents();
-    }
-
-    // Server-only logic
-    public bool AllSourcesPowered()
-    {
-        return generators.Count > 0 && generators.All(s => s.IsPowering);
-    }
-
-    // Called by generators when they connect/disconnect
+    /// <summary> Called by generators when they connect </summary>
     public void RegisterSource(STRUCTURE_Generator src)
     {
         if (!isServer) return;
@@ -97,11 +69,11 @@ public class STRUCTURE : NetworkBehaviour
         if (generators.Contains(src)) return;
 
         generators.Add(src);
-        src.OnPowerChanged += OnSourcePowerChanged;
+        src.onPowerChanged += OnSourcePowerChanged;
 
-        EvaluatePowerServer();
+        UpdatePowerState();
     }
-
+    /// <summary> Called by generators when they disconnect </summary>
     public void UnregisterSource(STRUCTURE_Generator src)
     {
         if (!isServer) return;
@@ -109,16 +81,11 @@ public class STRUCTURE : NetworkBehaviour
         if (!generators.Contains(src)) return;
 
         generators.Remove(src);
-        src.OnPowerChanged -= OnSourcePowerChanged;
+        src.onPowerChanged -= OnSourcePowerChanged;
 
-        EvaluatePowerServer();
+        UpdatePowerState();
     }
 
-    public void UpdateComponents()
-    {
-        foreach (var component in powerDependantComponents)
-        {
-            component.SetActive(isPoweredClient);
-        }
-    }
+    /// <summary> Sets connected GameObjects that make up this Structure to this Structure's Powered state </summary>
+    public void UpdateComponents(){ foreach (var component in powerDependantComponents){ component.SetActive(isPowered); }}
 }

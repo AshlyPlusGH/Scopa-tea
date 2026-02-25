@@ -1,60 +1,48 @@
 using UnityEngine;
 using PurrNet;
-using NaughtyAttributes;
 
 public class ITEM_Pickup : NetworkBehaviour
 {
-    public ITEM_Pointer itemPointer;
+    public ITEM_Pointer pointer;
 
-    public OBJECT_Draggable draggable;
-    public Rigidbody physics;
-
-    public enum_ITEM_PickupState state {get; private set;} = enum_ITEM_PickupState.None;
+    void Awake(){ Setup(); }
+    void Setup()
+    {
+        if (pointer == null){ pointer = GetComponent<ITEM_Pointer>(); }
+        if (pointer == null){ Debug.Log("Error: Pointer not assigned!"); }
+    }
 
     public void Pickup() //Local Call
     {
-        if (state == enum_ITEM_PickupState.Held){ return; }
+        if (pointer.behaviour.state == enum_ITEM_State.Held){ return; }
 
         RPC_UPDATESERVER_Pickup(); //Tell Server to Update Clients (Incl. Me)
     }
         private void ItemPickedUp() //Local Function
         {
-            state = enum_ITEM_PickupState.Held;
+            if (pointer.inSlot.slotted){ pointer.inSlot.UnSlot(); }
 
-            draggable.enabled = false; //Not Draggable in Inventory!
-            physics.isKinematic = true;
-            physics.linearVelocity = Vector3.zero;
-            physics.angularVelocity = Vector3.zero;
+            pointer.behaviour.SetState(enum_ITEM_State.Held);
         }
 
         [ServerRpc] //Call Server: Method will run on Server!
-        private void RPC_UPDATESERVER_Pickup(){ RPC_UPDATECLIENT_Pickup(); } //Update all Clients
+        private void RPC_UPDATESERVER_Pickup(){ RPC_UPDATECLIENTS_Pickup(); } //Update all Clients
         [ObserversRpc] //Calls all Clients: Method will run on Client
-        private void RPC_UPDATECLIENT_Pickup(){ ItemPickedUp(); } //Trigger Local Function on Client Instance
+        private void RPC_UPDATECLIENTS_Pickup(){ ItemPickedUp(); } //Trigger Local Function on Client Instance
 
     public void Drop() //Local Call
     {
-        if (state == enum_ITEM_PickupState.Dropped){ return; }
+        if (pointer.behaviour.state == enum_ITEM_State.Loose){ Debug.Log("Error: Item was told to be Dropped but was already Loose!"); return; }
 
         RPC_UPDATESERVER_Drop(); //Tell Server to Update Clients (Incl. Me)
     }
         private void ItemDropped() //Local Function
         {
-            physics.isKinematic = false;
-            draggable.enabled = true; //Not Draggable in Inventory!
-
-            state = enum_ITEM_PickupState.Dropped;
+            pointer.behaviour.SetState(enum_ITEM_State.Loose);
         }
 
         [ServerRpc] //Call Server: Method will run on Server!
         private void RPC_UPDATESERVER_Drop(){ RPC_UPDATECLIENT_Drop(); } //Update all Clients
         [ObserversRpc] //Calls all Clients: Method will run on Client
         private void RPC_UPDATECLIENT_Drop(){ ItemDropped(); } //Trigger Local Function on Client Instance
-}
-
-public enum enum_ITEM_PickupState
-{
-    None,
-    Held,
-    Dropped
 }

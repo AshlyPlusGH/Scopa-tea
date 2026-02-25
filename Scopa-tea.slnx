@@ -3,9 +3,9 @@
   <Project Path="NaughtyAttributes.Core.csproj" />
   <Project Path="PurrNet.Runtime.csproj" />
   <Project Path="NaughtyAttributes.Editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="PurrNetLobbySetup.csproj" />
   <Project Path="PurrNet.Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.PurrNet.Codegen.csproj" />
   <Project Path="PurrNet.Profiler.Deltas.Editor.csproj" />
   <Project Path="SimpleWebTransport.csproj" />

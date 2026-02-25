@@ -1,5 +1,6 @@
 using UnityEngine;
 using PurrNet;
+using NUnit.Framework;
 
 public class OBJECT_Draggable : NetworkBehaviour
 {
@@ -7,6 +8,10 @@ public class OBJECT_Draggable : NetworkBehaviour
     public float force = 600;
 	public float damping = 6;
 	public float distance = 15;
+
+	[Space(10)]
+
+	[SerializeField] private NetworkTransform networkTransform;
 
 	private LineRenderer lr;
 	private Transform lineRenderLocation;
@@ -33,28 +38,35 @@ public class OBJECT_Draggable : NetworkBehaviour
         targetCam = Camera.main;
         if (targetCam == null){ targetCam = FindFirstObjectByType<Camera>(); }
 
+		if (networkTransform == null) networkTransform = GetComponent<NetworkTransform>();
+
         DestroyRope();
     }
+
+    void OnDisable(){ if (state != enum_OBJECT_DraggableState.Dragging){ return; } HandleInputEnd(); }
     //End Addition
 
     void OnMouseDown ()
 	{
-		HandleInputBegin (Input.mousePosition);
+		if (!this.enabled){ return; }
+		if (state == enum_OBJECT_DraggableState.Dragging){ return; }
+
+		HandleInputBegin(Input.mousePosition);
 	}
 	
 	void OnMouseUp ()
 	{
-		HandleInputEnd (Input.mousePosition);
+		HandleInputEnd(Input.mousePosition);
 	}
 	
 	void OnMouseDrag ()
 	{
-		HandleInput (Input.mousePosition);
+		HandleInput(Input.mousePosition);
 	}
 	
 	public void HandleInputBegin(Vector3 screenPosition)
     {
-        state = enum_OBJECT_DraggableState.Dragging; //NETWORK SYNC
+		RPC_UPDATESERVER_GiveMeOwnership(localPlayer);
 
         jointTrans = null; // reset before starting a new drag
 
@@ -73,7 +85,6 @@ public class OBJECT_Draggable : NetworkBehaviour
 
         lr.positionCount = 2;
     }
-	
 	public void HandleInput (Vector3 screenPosition)
 	{
 		if (jointTrans == null)
@@ -85,8 +96,7 @@ public class OBJECT_Draggable : NetworkBehaviour
 
 		DrawRope();
 	}
-	
-	public void HandleInputEnd(Vector3 screenPosition)
+	public void HandleInputEnd(Vector3 screenPosition = new())
     {
         DestroyRope();
 
@@ -96,7 +106,7 @@ public class OBJECT_Draggable : NetworkBehaviour
             jointTrans = null;
         }
 
-        state = enum_OBJECT_DraggableState.Loose; //NETWORK SYNC
+		RPC_UPDATESERVER_ResetOwnership();
     }
 	
 	Transform AttachJoint (Rigidbody rb, Vector3 attachmentPosition)
@@ -145,6 +155,18 @@ public class OBJECT_Draggable : NetworkBehaviour
 		lr.positionCount = 0;
 	}
     #endregion
+
+
+	[ServerRpc]
+	private void RPC_UPDATESERVER_GiveMeOwnership(PlayerID? newOwner){ RPC_UPDATECLIENTS_GiveMeOwnership(newOwner); }
+	[ObserversRpc]
+	private void RPC_UPDATECLIENTS_GiveMeOwnership(PlayerID? newOwner){ GiveMeOwnership(newOwner); }
+		void GiveMeOwnership(PlayerID? newOwner){ state = enum_OBJECT_DraggableState.Dragging; networkTransform.GiveOwnership(newOwner); }
+	[ServerRpc]
+	private void RPC_UPDATESERVER_ResetOwnership(){ RPC_UPDATECLIENTS_ResetOwnership(); } //Should reset ownership to Host
+	[ObserversRpc]
+	private void RPC_UPDATECLIENTS_ResetOwnership(){ ResetOwnership(); } //Should reset ownership to Host
+		void ResetOwnership(){ networkTransform.GiveOwnership(localPlayer); state = enum_OBJECT_DraggableState.Loose; }
 }
 
 public enum enum_OBJECT_DraggableState

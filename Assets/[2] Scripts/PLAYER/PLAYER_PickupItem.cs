@@ -1,5 +1,4 @@
 using System.Collections;
-using NUnit.Framework;
 using UnityEngine;
 
 public class PLAYER_PickupItem : MonoBehaviour
@@ -43,16 +42,16 @@ public class PLAYER_PickupItem : MonoBehaviour
     }
     void PickupItem(ITEM_Pickup item)
     {
-        if (RUNNINGCOROUTINE_PickupItem != null){ return; }
-        if (inventory.QueryIsFull()){ return; }
+        if (RUNNINGCOROUTINE_PickupItem != null){ return; } //Script busy, don't attempt Pickup!
+        if (inventory.QueryIsFull()){ InventoryFull(); return; } //Inventory Full
 
         RUNNINGCOROUTINE_PickupItem = StartCoroutine(COROUTINE_PickupItem(item));
     }
         IEnumerator COROUTINE_PickupItem(ITEM_Pickup item)
         {
-            item.Pickup(); //Call Item to be picked up!
+            item.Pickup();
 
-            while (!item.physics.isKinematic){ yield return null; } //Pass to Next Frame if item not set Kinematic!
+            while (!item.pointer.physics.isKinematic){ yield return null; } //Pass to Next Frame if item not set Kinematic! To avoid Incorrect position due to Gravity.
 
             inventory.Add(item.gameObject); //Add to Inventory when Object is Kinematic
 
@@ -61,10 +60,13 @@ public class PLAYER_PickupItem : MonoBehaviour
             yield break;
         }
 
+    void InventoryFull(){}
+
     void TryUpdatePrompter(GameObject observedObject = null)
     {
         if (observedObject == null){ UpdatePrompter(); }
         else if (observedObject.GetComponent<ITEM_Pickup>() == null){ UpdatePrompter(); }
+        else if (observedObject.GetComponent<ITEM_Pickup>().pointer.behaviour.state == enum_ITEM_State.Held){ UpdatePrompter(); }
         else { UpdatePrompter(true, observedObject.transform.position); }
     }
     void UpdatePrompter(bool queryActive = false, Vector3 newPosition = new())

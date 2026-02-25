@@ -21,8 +21,11 @@ public class PlayerController : NetworkBehaviour
     [Header("References")]
     [SerializeField] private CinemachineCamera playerCamera;
     [SerializeField] private Light playerAuraLight;
+    [SerializeField] private PLAYER_Inventory inventory;
+    [SerializeField] private PLAYER_PickupItem pickup;
+    [SerializeField] private PLAYER_Raycast raycaster;
     
-    private CharacterController characterController;
+    [SerializeField] private CharacterController characterController;
     private Vector3 velocity;
     private float verticalRotation = 0f;
 
@@ -30,27 +33,19 @@ public class PlayerController : NetworkBehaviour
     {
         base.OnSpawned();
 
-        enabled = isOwner; //Disables this Script if Local Player is not Owner!
+        bool local = isOwner;
 
-        playerCamera.gameObject.SetActive(isOwner);
-        playerAuraLight.gameObject.SetActive(isOwner);
-    }
+        if (inventory != null) inventory.enabled = local;
+        if (pickup != null) pickup.enabled = local;
+        if (raycaster != null) raycaster.enabled = local;
+        enabled = local; //Disables this Script if Local Player is not Owner!
 
-    private void OnEnable()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-    private void OnDisable()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        playerCamera.gameObject.SetActive(local);
+        playerAuraLight.gameObject.SetActive(local);
     }
 
-    private void Awake()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
+    private void Awake(){ Setup(); }
+    void Setup(){ if (characterController == null){ characterController = GetComponent<CharacterController>(); } }
 
     private void Update()
     {

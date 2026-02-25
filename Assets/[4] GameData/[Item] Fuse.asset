@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: '[Item] Fuse'
   m_EditorClassIdentifier: Assembly-CSharp::soDATA_Item
   soDATA_itemName: Fuse
+  soDATA_type: 1
