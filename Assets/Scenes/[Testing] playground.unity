@@ -1735,7 +1735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9098345808317377503, guid: 61d64829f07751942b63b76626812653, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2548,7 +2548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9098345808317377503, guid: 61d64829f07751942b63b76626812653, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5397,6 +5397,10 @@ PrefabInstance:
     - target: {fileID: 8470459962803563738, guid: 1018043db8e22dc4d80fcb9e3f0daec3, type: 3}
       propertyPath: m_Name
       value: '[Item] New {Prefab}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470459962803563738, guid: 1018043db8e22dc4d80fcb9e3f0daec3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8959784307768108388, guid: 1018043db8e22dc4d80fcb9e3f0daec3, type: 3}
       propertyPath: itemCollider

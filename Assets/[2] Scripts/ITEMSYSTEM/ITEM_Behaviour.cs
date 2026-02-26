@@ -11,7 +11,17 @@ public class ITEM_Behaviour : NetworkBehaviour
 
     public enum_ITEM_State state {get; private set;} = enum_ITEM_State.None;
 
-    void Awake(){ Setup(); }
+    void Awake()
+    {
+        //Setup(); //DO NOT CALL SERVER RPCS BEFORE ONSPAWNED!
+    }
+
+    protected override void OnSpawned()
+    {
+        base.OnSpawned();
+
+        Setup();
+    }
     void Setup(){ UpdateBehaviour(); }
 
     public void SetState(enum_ITEM_State newState){ if (debug){ Debug.Log(name + ": Set State: " + newState); } state = newState; pointer.behaviour.UpdateBehaviour(); }
