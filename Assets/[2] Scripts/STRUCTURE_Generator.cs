@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using PurrNet;
+using UnityEngine.Events;
 
 public class STRUCTURE_Generator : STRUCTURE
 {
@@ -16,6 +17,11 @@ public class STRUCTURE_Generator : STRUCTURE
 
     public List<STRUCTURE_ITEM_Slot> inventory = new();
 
+    [Space(10)]
+
+    [SerializeField] private UnityEvent OnPoweringSetTrue;
+    [SerializeField] private UnityEvent OnPoweringSetFalse;
+
     public event Action<STRUCTURE_Generator> onPowerChanged; //Fired when powering state changes
 
     void Awake(){ Setup(); }
@@ -29,6 +35,16 @@ public class STRUCTURE_Generator : STRUCTURE
             isPowering = state;
 
             onPowerChanged?.Invoke(this); //STRUCTUREs listen to this
+
+            switch (state)
+            {
+                case true:
+                    OnPoweringSetTrue.Invoke();
+                    break;
+                case false:
+                    OnPoweringSetFalse.Invoke();
+                    break;
+            }
         }
         [ServerRpc]
         private void RPC_UPDATESERVER_SetPoweringState(bool state){ RPC_UPDATECLIENTS_SetPoweringState(state); }

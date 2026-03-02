@@ -2,6 +2,7 @@ using UnityEngine;
 using PurrNet;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class STRUCTURE_ITEM_Slot : NetworkBehaviour
 {
@@ -18,6 +19,11 @@ public class STRUCTURE_ITEM_Slot : NetworkBehaviour
 
     [SerializeField] private soDATA_Item heldItemData = null; //Internal Data
     [DoNotSerialize] public soDATA_Item STAT_heldItemData => heldItemData; //Pointer
+
+    [Space(10)]
+
+    [SerializeField] private UnityEvent OnItemSlotted;
+    [SerializeField] private UnityEvent OnItemUnSlotted;
 
     public event Action OnInventoryChanged;
 
@@ -64,6 +70,8 @@ public class STRUCTURE_ITEM_Slot : NetworkBehaviour
         slottingItem = item.pointer.dataContainer.STAT_data;
         if (item.Slot(this, UpdateSlotContents)){ if (debug){ Debug.Log("Slotting Item!"); } } //Item Slotting!
         else { slottedItem = null; slottingItem = null; } //Item can't Slot!
+
+        OnItemSlotted.Invoke();
     }
     public void UnSlotItem()
     {
@@ -71,6 +79,8 @@ public class STRUCTURE_ITEM_Slot : NetworkBehaviour
 
         slottedItem = null; slottingItem = null;
         UpdateSlotContents();
+
+        OnItemUnSlotted.Invoke();
     }
         private void UpdateSlotContents()
         {

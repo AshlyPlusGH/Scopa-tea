@@ -3,12 +3,16 @@ using UnityEngine;
 
 public class PLAYER_PickupItem : MonoBehaviour
 {
-    public PLAYER_Inventory inventory;
-    public PLAYER_Raycast raycaster;
+    [SerializeField] private PLAYER_Inventory inventory;
+    [SerializeField] private PLAYER_Raycast raycaster;
 
     [Space(10)]
 
-    public GameObject pickupPromptPrefab;
+    [SerializeField] private GameObject pickupPromptPrefab;
+
+    [Space(10)]
+
+    [SerializeField] private LayerMask pickupRaycastLayerMask;
 
     private GameObject activePickupPrompter;
     private Coroutine RUNNINGCOROUTINE_PickupItem;
@@ -25,7 +29,7 @@ public class PLAYER_PickupItem : MonoBehaviour
 
     void Update()
     {
-        GameObject observedObject = raycaster.GetObservedObject(pickupRange);
+        GameObject observedObject = raycaster.GetObservedObject(pickupRange, pickupRaycastLayerMask);
 
         TryUpdatePrompter(observedObject);
 

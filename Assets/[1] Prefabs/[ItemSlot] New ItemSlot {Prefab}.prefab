@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2106881212409444381}
   - component: {fileID: 5564647074001727820}
   - component: {fileID: 444023531188266692}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: '[ItemSlot] PlaceGhost'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6824937524213443563}
   - component: {fileID: 6324023812377196849}
   - component: {fileID: 5904026019252031239}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: '[ItemSlot] New ItemSlot {Prefab}'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,16 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
+  debug: 0
   snapPoint: {fileID: 3712755870108773578}
+  heldItemData: {fileID: 0}
+  OnItemSlotted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnItemUnSlotted:
+    m_PersistentCalls:
+      m_Calls: []
+  disableTriggers: 0
 --- !u!135 &5904026019252031239
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -177,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3712755870108773578}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: '[ItemSlot] SnapPoint'
   m_TagString: Untagged
   m_Icon: {fileID: 0}

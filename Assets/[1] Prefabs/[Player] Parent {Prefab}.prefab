@@ -498,6 +498,9 @@ MonoBehaviour:
   inventory: {fileID: 2003897842120639247}
   raycaster: {fileID: 7525817729201422623}
   pickupPromptPrefab: {fileID: 4146511318134193718, guid: a016f9d223b50ea41904a993eaf9e3b5, type: 3}
+  pickupRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 129
 --- !u!114 &2003897842120639247
 MonoBehaviour:
   m_ObjectHideFlags: 0
