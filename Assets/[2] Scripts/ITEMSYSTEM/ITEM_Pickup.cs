@@ -39,6 +39,7 @@ public class ITEM_Pickup : NetworkBehaviour
         private void ItemDropped() //Local Function
         {
             pointer.behaviour.SetState(enum_ITEM_State.Loose);
+            gameObject.transform.parent = null;
         }
 
         [ServerRpc] //Call Server: Method will run on Server!

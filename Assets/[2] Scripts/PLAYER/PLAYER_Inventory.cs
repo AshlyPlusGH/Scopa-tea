@@ -7,6 +7,11 @@ public class PLAYER_Inventory : NetworkBehaviour
     [SerializeField] private List<Transform> inventory = new ();
     //[SerializeField] private List<UI_ISlot> inventoryUI = new ();
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F)){ Drop(); }
+    }
+
     public void Add(GameObject item)
     { 
         int freeSpacePos = GetFreeSpacePos();
@@ -37,6 +42,19 @@ public class PLAYER_Inventory : NetworkBehaviour
 
             return null;
         }
+
+    public void Drop()
+    {
+        GameObject item = null;
+
+        foreach (var slot in inventory){ if (slot.childCount > 0){ item = slot.GetChild(0).gameObject; }}
+
+            if (item == null){ return; }
+
+        ITEM_Pickup itemPickup = item.GetComponent<ITEM_Pickup>();
+            if (itemPickup == null){ item.transform.parent = null; return; }
+        itemPickup.Drop();
+    }
 
     public bool QueryIsFull(){ return GetFreeSpace() == null; }
 }

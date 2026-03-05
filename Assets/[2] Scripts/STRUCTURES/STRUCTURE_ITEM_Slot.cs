@@ -90,8 +90,9 @@ public class STRUCTURE_ITEM_Slot : NetworkBehaviour
         {
             heldItemData = slottingItem;
 
-            if (!isServer){ return; }
+                if (!isServer){ return; }
 
+                if (OnInventoryChanged == null){ Debug.Log("No Inventory Changed Event found at: " + name); return; }
             OnInventoryChanged.Invoke(); //Trigger Inventory changed. SERVERAUTH
         }
         [ServerRpc]
