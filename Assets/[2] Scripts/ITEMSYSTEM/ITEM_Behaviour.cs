@@ -52,9 +52,11 @@ public class ITEM_Behaviour : NetworkBehaviour
         public void SettingPhysics(bool isKinematic = false, bool haltMovement = false)
         {
             pointer.physics.isKinematic = isKinematic;
-            if (haltMovement){ HaltMovement(); }
+            
+                if (!haltMovement){ return; }
+            HaltMovement();
         }
-            private void HaltMovement(){ pointer.physics.linearVelocity = Vector3.zero; pointer.physics.angularVelocity = Vector3.zero; }
+            private void HaltMovement(){ if (pointer.physics.isKinematic){ return; } pointer.physics.linearVelocity = Vector3.zero; pointer.physics.angularVelocity = Vector3.zero; }
         [ServerRpc]
         private void RPC_UPDATESERVER_SetPhysics(bool isKinematic = false, bool haltMovement = false){ RPC_UPDATECLIENTS_SetPhysics(isKinematic, haltMovement); }
         [ObserversRpc]

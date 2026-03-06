@@ -3,22 +3,37 @@ using PurrNet;
 
 public class PLAYER_MONSTER_Attack : NetworkBehaviour
 {
-    public GameObject attacker;
-    public Animator animator;
+    public PLAYER_Pointer pointer;
+
+    [SerializeField] public GameObject attacker;
+    [SerializeField] public Animator animator;
 
     private bool attacking;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !attacking){ Attack(); }
+        if (attacking){ return; }
+        if (!Input.GetMouseButtonDown(0)){ return; }
+
+        GameObject observedObject = pointer.raycaster.GetObservedObject(PLAYER_PickupItem.RULE_PLAYER_pickupRange);
+        if (observedObject != null){ if (observedObject.GetComponent<ITEM_Pickup>() != null){ return; }} // Check for Items in Front of player to prevent attacking!
+
+        Attack();
     }
 
-    public void Attack(){attacking = true; attacker.SetActive(true); animator.SetTrigger("Attack");}
-
-    public void OnAttackCompleted()
+    public void Attack()
     {
-        Debug.Log("Animation finished!");
+        attacking = true;
         
-        attacker.SetActive(false); attacking = false;
+        attacker.SetActive(true);
+        
+        animator.SetTrigger("Attack");
     }
+
+        public void OnAttackCompleted()
+        {
+            attacker.SetActive(false);
+
+            attacking = false;
+        }
 }

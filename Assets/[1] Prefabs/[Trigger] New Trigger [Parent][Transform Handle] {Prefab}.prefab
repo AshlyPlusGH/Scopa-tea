@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2192581878033427864}
   - component: {fileID: 3483098500199739619}
   m_Layer: 9
-  m_Name: '[Trigger] Trigger {Prefab}'
+  m_Name: '[Trigger] New Trigger [Script,Collider]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3948481949447299437}
   m_Layer: 9
-  m_Name: '[Trigger] New Trigger [Parent] {Prefab}'
+  m_Name: '[Trigger] New Trigger [Parent][Transform Handle] {Prefab}'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,8 +10,6 @@ public class AshConnectionStarter : MonoBehaviour
     private NetworkManager _networkManager;
     private LobbyDataHolder _lobbyDataHolder;
     
-    // Prevents duplicate network starts if scene loads multiple times
-    private static bool _hasStarted = false;
     private bool _useUnityRelay = false;
     
     private void Awake()

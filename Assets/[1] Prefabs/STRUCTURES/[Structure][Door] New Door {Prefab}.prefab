@@ -345,7 +345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6324023812377196849, guid: 3a9712d132cc382498be0af6824c8abb, type: 3}
       propertyPath: debug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6324023812377196849, guid: 3a9712d132cc382498be0af6824c8abb, type: 3}
       propertyPath: OnItemSlotted.m_PersistentCalls.m_Calls.Array.size

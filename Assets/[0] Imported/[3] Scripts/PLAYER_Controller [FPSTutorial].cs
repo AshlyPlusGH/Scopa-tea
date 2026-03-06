@@ -21,31 +21,22 @@ public class PlayerController : NetworkBehaviour
     [Header("References")]
     [SerializeField] private CinemachineCamera playerCamera;
     [SerializeField] private Light playerAuraLight;
-    [SerializeField] private PLAYER_Inventory inventory;
-    [SerializeField] private PLAYER_PickupItem pickup;
-    [SerializeField] private PLAYER_Raycast raycaster;
-    
+    [SerializeField] private PLAYER_Pointer pointer;
     [SerializeField] private CharacterController characterController;
+    
     private Vector3 velocity;
     private float verticalRotation = 0f;
 
     protected override void OnSpawned()
     {
-        base.OnSpawned();
+        enabled = isOwner; //Disables this Script if Local Player is not Owner!
 
-        bool local = isOwner;
+        pointer.enabled = isOwner;
+            if (pointer.enabled == true){ pointer.EnableAll(); }
 
-        if (inventory != null) inventory.enabled = local;
-        if (pickup != null) pickup.enabled = local;
-        if (raycaster != null) raycaster.enabled = local;
-        enabled = local; //Disables this Script if Local Player is not Owner!
-
-        playerCamera.gameObject.SetActive(local);
-        playerAuraLight.gameObject.SetActive(local);
+        playerCamera.gameObject.SetActive(isOwner);
+        playerAuraLight.gameObject.SetActive(isOwner);
     }
-
-    private void Awake(){ Setup(); }
-    void Setup(){ if (characterController == null){ characterController = GetComponent<CharacterController>(); } }
 
     private void Update()
     {

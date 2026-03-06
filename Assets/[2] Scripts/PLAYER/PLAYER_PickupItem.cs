@@ -17,7 +17,8 @@ public class PLAYER_PickupItem : MonoBehaviour
     private GameObject activePickupPrompter;
     private Coroutine RUNNINGCOROUTINE_PickupItem;
 
-    const float pickupRange = 10f; 
+    public const float RULE_PLAYER_pickupRange = 10f; 
+    private float pickupRange => RULE_PLAYER_pickupRange;
 
     public void TEST(){ PickupItem(FindFirstObjectByType<ITEM_Pickup>()); }
 
@@ -39,6 +40,7 @@ public class PLAYER_PickupItem : MonoBehaviour
     void TryPickupItem(GameObject observedObject = null)
     {
         if (!Input.GetKeyDown(KeyCode.E)){ return; }
+
         if (observedObject == null){ return; }
         if (observedObject.GetComponent<ITEM_Pickup>() == null){ return; }
 

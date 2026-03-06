@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6863086256977172038}
+  - component: {fileID: 398727666184999944}
   - component: {fileID: 2259610427279573827}
   - component: {fileID: 8847735215217315601}
   - component: {fileID: 5142838742021077421}
@@ -34,6 +35,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5124832966753406624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &398727666184999944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218233619626069845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef65eff4582bba44d9a5fa407985bec4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PLAYER_SURVIVOR_Hitbox
+  pointer: {fileID: 6248167654754169976}
 --- !u!136 &2259610427279573827
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -361,14 +375,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3595483777348234260}
+  - component: {fileID: 6248167654754169976}
   - component: {fileID: 721606314047234091}
-  - component: {fileID: 7464675983229373111}
-  - component: {fileID: -5506923167117169616}
   - component: {fileID: 3963005409359497303}
+  - component: {fileID: 2291480232455771675}
   - component: {fileID: 2003897842120639247}
   - component: {fileID: 7525817729201422623}
+  - component: {fileID: 7464675983229373111}
+  - component: {fileID: -5506923167117169616}
   m_Layer: 0
-  m_Name: '[Player] Parent {Prefab}'
+  m_Name: '[Player][Survivor] New Survivor [Parent]{Prefab}'
   m_TagString: Untagged
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -392,6 +408,23 @@ Transform:
   - {fileID: 365298186149411541}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6248167654754169976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6584875077998625806}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5794f00a58216ac48ad4fa192dacd5a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Pointer
+  survivor: {fileID: 2291480232455771675}
+  survivorHitbox: {fileID: 398727666184999944}
+  inventory: {fileID: 2003897842120639247}
+  pickup: {fileID: 3963005409359497303}
+  raycaster: {fileID: 7525817729201422623}
 --- !u!114 &721606314047234091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,10 +456,74 @@ MonoBehaviour:
   maxLookAngle: 80
   playerCamera: {fileID: 8278040120004478325}
   playerAuraLight: {fileID: 5836606186286506165}
+  pointer: {fileID: 6248167654754169976}
+  characterController: {fileID: 7464675983229373111}
+--- !u!114 &3963005409359497303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6584875077998625806}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ae0629917f19445b80890992e36fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
   inventory: {fileID: 2003897842120639247}
-  pickup: {fileID: 3963005409359497303}
   raycaster: {fileID: 7525817729201422623}
-  characterController: {fileID: 0}
+  pickupPromptPrefab: {fileID: 4146511318134193718, guid: a016f9d223b50ea41904a993eaf9e3b5, type: 3}
+  pickupRaycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 129
+--- !u!114 &2291480232455771675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6584875077998625806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8026a248147540d4288da23ca681fa18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Survivor
+--- !u!114 &2003897842120639247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6584875077998625806}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 548bcde257d9bef4d944f949f558b395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Inventory
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  inventory:
+  - {fileID: 9144625538282446944}
+--- !u!114 &7525817729201422623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6584875077998625806}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b07165709579c74190dbfb02987067e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Raycast
+  targetCam: {fileID: 0}
 --- !u!143 &7464675983229373111
 CharacterController:
   m_ObjectHideFlags: 0
@@ -483,60 +580,6 @@ MonoBehaviour:
   _characterControllerPatch: 0
   _ownerAuth: 1
   _interpolationTiming: 0
---- !u!114 &3963005409359497303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6584875077998625806}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ae0629917f19445b80890992e36fe0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  inventory: {fileID: 2003897842120639247}
-  raycaster: {fileID: 7525817729201422623}
-  pickupPromptPrefab: {fileID: 4146511318134193718, guid: a016f9d223b50ea41904a993eaf9e3b5, type: 3}
-  pickupRaycastLayerMask:
-    serializedVersion: 2
-    m_Bits: 129
---- !u!114 &2003897842120639247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6584875077998625806}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 548bcde257d9bef4d944f949f558b395, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Inventory
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
-  inventory:
-  - {fileID: 9144625538282446944}
---- !u!114 &7525817729201422623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6584875077998625806}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b07165709579c74190dbfb02987067e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Raycast
-  targetCam: {fileID: 0}
 --- !u!1 &6822375008120408237
 GameObject:
   m_ObjectHideFlags: 0

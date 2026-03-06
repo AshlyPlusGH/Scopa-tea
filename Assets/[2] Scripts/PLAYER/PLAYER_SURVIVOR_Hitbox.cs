@@ -1,8 +1,8 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Rigidbody))]
 public class PLAYER_SURVIVOR_Hitbox : MonoBehaviour
 {
-    public GameObject playerParent;
-
-    public void Death(){ Destroy(playerParent); }
+    public PLAYER_Pointer pointer;
 }

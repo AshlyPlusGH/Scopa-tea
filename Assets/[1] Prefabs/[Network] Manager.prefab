@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9025874354254984222}
   - component: {fileID: 1190167342673454648}
-  - component: {fileID: 2033531179959605128}
   - component: {fileID: 4002898232011056596}
   - component: {fileID: 1081018690058001082}
   - component: {fileID: 3932014047717831346}
@@ -62,22 +61,6 @@ MonoBehaviour:
   _authenticator: {fileID: 0}
   _tickRate: 20
   _patchLingeringProcessBug: 0
---- !u!114 &2033531179959605128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098345808317377503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ced7bf28cdbee104e8cdc34ab761b039, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.PlayerSpawner
-  playerPrefab: {fileID: 0}
-  _playerPrefab: {fileID: 6584875077998625806, guid: 18d41de2eae53704591701949b02bdac, type: 3}
-  _ignoreNetworkRules: 0
-  spawnPoints: []
 --- !u!114 &4002898232011056596
 MonoBehaviour:
   m_ObjectHideFlags: 0

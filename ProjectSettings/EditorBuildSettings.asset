@@ -6,14 +6,26 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/PurrLobby/LobbyScenes/LobbySample.unity
-    guid: 163ab76a47bff6646b7627336bc33bdf
+    path: Assets/[6] Scenes/[0] Final/start.unity
+    guid: 948724c7eca342d4da11977911419260
   - enabled: 1
-    path: Assets/PurrLobby/LobbyScenes/NetworkedScene.unity
-    guid: e6ba6bbd3072e63449ec09bda4a1b5e6
+    path: Assets/[6] Scenes/[0] Final/data.unity
+    guid: 3af11c917f42e0548921dca64c080a38
   - enabled: 1
-    path: Assets/Scenes/[Testing] playground.unity
+    path: Assets/[6] Scenes/[0] Final/title.unity
+    guid: 87ce8c234ab70ff448b68fc5f95b4eb6
+  - enabled: 1
+    path: Assets/[6] Scenes/[0] Final/lobby.unity
+    guid: 59b212ba09d2ea74f8384d9d8b7e9693
+  - enabled: 1
+    path: Assets/[6] Scenes/[0] Final/main.unity
+    guid: dc61053f054eb014fa102f57d54ad331
+  - enabled: 1
+    path: Assets/[6] Scenes/[Testing] playground.unity
     guid: 58a3d2500319cdb4eae5703f6dfe726d
+  - enabled: 1
+    path: Assets/[6] Scenes/[Testing] win.unity
+    guid: 04e8b02505d4fdd47b4db975e078d931
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

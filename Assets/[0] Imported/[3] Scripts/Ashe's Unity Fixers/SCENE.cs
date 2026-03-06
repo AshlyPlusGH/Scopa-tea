@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,228 +8,230 @@ using System.Collections.Generic;
 /// Centralized scene management system with its own internal coroutine queue.
 /// Handles loading, unloading, reloading, and tracking scenes safely.
 /// </summary>
+/// 
+/// 
+/// REPLACE MONOBEHVAIOUR WITH SEPERATE SCENECOROUTINERUNNER MONOBEHAVIOUR ON SAME FILE
 public class SCENE : DEBUGMonoBehaviour
 {
-    private static bool classDebug = true;
+    private static bool debugStatic = false;
 
-    [Scene] private static readonly List<string> builtScenes = new List<string>();
-    [Scene] private static readonly List<string> loadedScenes = new List<string>();
+    private static readonly List<string> builtScenes = new List<string>();
+    private static readonly List<string> loadedScenes = new List<string>();
 
     private static SCENE instance;
 
-    // Internal coroutine queue
     private static readonly Queue<IEnumerator> routineQueue = new Queue<IEnumerator>();
     private static bool isRunningQueue = false;
-
-    // ---------------------------------------------------------
-    // SETUP
-    // ---------------------------------------------------------
+    
     #region Setup
-
-    void Awake()
-    {
-        if (instance == null)
+        void Awake(){ Setup(); }
+        public void Setup()
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            Setup();
+            if ((instance == null) || (instance == this))
+            {
+                if (instance != this){ instance = this; }
+                    foreach (Component component in GetComponents<Component>()) // If tainted GO, Purify it!
+                    {
+                        if (component.GetType() == typeof(Transform)){ continue; }
+                        if (component != this){ Destroy(component); }
+                    }
+                    transform.SetParent(null); //DDoL Fixer
+                DontDestroyOnLoad(gameObject);
+                SetupClass();
+            }
+            else { Destroy(gameObject); }
         }
-        else
+
+        /// <summary> Quits the Game. </summary>
+        private static void SetupClass()
         {
-            Destroy(gameObject);
+            UpdateBuiltScenes();
+
+            Scene activeScene = SceneManager.GetActiveScene();
+
+            if (!loadedScenes.Contains(activeScene.name)){ loadedScenes.Add(activeScene.name); }
         }
-    }
-
-    /// <summary>
-    /// Initializes built scene list and registers the active scene as loaded.
-    /// </summary>
-    private static void Setup()
-    {
-        UpdateBuiltScenes();
-        loadedScenes.Add(SceneManager.GetActiveScene().name);
-    }
-
-    /// <summary>
-    /// Populates the list of scenes included in the build.
-    /// </summary>
-    private static void UpdateBuiltScenes()
-    {
-        builtScenes.Clear();
-
-        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-        {
-            string name = SceneManager.GetSceneByBuildIndex(i).name;
-            builtScenes.Add(name);
-        }
-    }
-
     #endregion
 
-    // ---------------------------------------------------------
-    // QUEUE SYSTEM
-    // ---------------------------------------------------------
+    #region Utility
+        private static void InstancedCheck(){
+            if (instance != null){ return; }
+
+            GameObject newSceneLoader = Instantiate(new GameObject("[Scene] RuntimeSceneLoader [SCENE]"));
+            SCENE newInstance = newSceneLoader.AddComponent<SCENE>();
+
+            newInstance.Setup();
+        }
+
+        /// <summary> Populates the list of scenes included in the build. </summary>
+        private static void UpdateBuiltScenes()
+        {
+            builtScenes.Clear();
+
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                string name = SceneManager.GetSceneByBuildIndex(i).name;
+                builtScenes.Add(name);
+            }
+        }
+    #endregion
+
     #region Queue System
-
-    /// <summary>
-    /// Adds a coroutine to the internal queue and starts processing if idle.
-    /// </summary>
-    private static void QueueRoutine(IEnumerator routine)
-    {
-        routineQueue.Enqueue(routine);
-
-        if (!isRunningQueue)
-            instance.StartCoroutine(ProcessQueue());
-    }
-
-    /// <summary>
-    /// Processes queued coroutines sequentially.
-    /// </summary>
-    private static IEnumerator ProcessQueue()
-    {
-        isRunningQueue = true;
-
-        while (routineQueue.Count > 0)
+        /// <summary> Adds a coroutine to the internal queue and starts processing if idle. </summary>
+        private static void QueueRoutine(IEnumerator routine)
         {
-            yield return instance.StartCoroutine(routineQueue.Dequeue());
+            routineQueue.Enqueue(routine);
+
+            if (!isRunningQueue)
+                instance.StartCoroutine(ProcessQueue());
         }
 
-        isRunningQueue = false;
-    }
+        /// <summary> Processes queued coroutines sequentially. </summary>
+        private static IEnumerator ProcessQueue()
+        {
+            isRunningQueue = true;
 
+            while (routineQueue.Count > 0)
+            {
+                yield return instance.StartCoroutine(routineQueue.Dequeue());
+            }
+
+            isRunningQueue = false;
+        }
     #endregion
 
-    // ---------------------------------------------------------
-    // PUBLIC API — LOAD / UNLOAD / RELOAD
-    // ---------------------------------------------------------
-    #region Public API
+    #region Public Calls
+        /// <summary> Loads a scene additively and sets it active. </summary>
+        public static void LoadScene(string sceneName) { InstancedCheck(); QueueRoutine(COROUTINE_LoadScene(sceneName)); }
 
-    /// <summary>
-    /// Loads a scene additively and sets it active.
-    /// </summary>
-    public static void LoadScene(string sceneName)
-    {
-        QueueRoutine(COROUTINE_LoadScene(sceneName));
-    }
+        /// <summary> Unloads a specific scene by name. </summary>
+        public static void UnloadScene(string sceneName){ InstancedCheck(); QueueRoutine(COROUTINE_UnloadScene(sceneName)); }
 
-    /// <summary>
-    /// Unloads a specific scene by name.
-    /// </summary>
-    public static void UnloadScene(string sceneName)
-    {
-        QueueRoutine(COROUTINE_UnloadScene(sceneName, null));
-    }
+        /// <summary> Unloads the last loaded scene. </summary>
+        public static void UnloadLastScene(){ InstancedCheck(); QueueRoutine(COROUTINE_UnloadLastScene()); }
 
-    /// <summary>
-    /// Unloads the last loaded scene.
-    /// </summary>
-    public static void UnloadLastScene()
-    {
-        QueueRoutine(COROUTINE_UnloadLastScene(null));
-    }
+        /// <summary> Unloads the first loaded scene. </summary>
+        public static void UnloadFirstScene(){ InstancedCheck(); QueueRoutine(COROUTINE_UnloadFirstScene()); }
 
-    /// <summary>
-    /// Unloads the first loaded scene.
-    /// </summary>
-    public static void UnloadFirstScene()
-    {
-        QueueRoutine(COROUTINE_UnloadFirstScene(null));
-    }
+        /// <summary> Reloads a scene by unloading and loading it again. </summary>
+        public static void ReloadScene(string sceneName)
+        {
+            InstancedCheck();
 
-    /// <summary>
-    /// Reloads a scene by unloading and loading it again.
-    /// </summary>
-    public static void ReloadScene(string sceneName)
-    {
-        QueueRoutine(COROUTINE_UnloadScene(sceneName));
-        QueueRoutine(COROUTINE_LoadScene(sceneName));
-    }
+            QueueRoutine(COROUTINE_UnloadScene(sceneName));
+            QueueRoutine(COROUTINE_LoadScene(sceneName));
+        }
 
-    /// <summary>
-    /// Sets the current Active Scene.
-    /// </summary>
-    public static void SetActiveScene(string sceneName)
-    {
-        QueueRoutine(COROUTINE_SetActiveScene(sceneName));
-    }
+        /// <summary> Sets the Active Scene. </summary>
+        public static void SetActiveScene(string sceneName)
+        {
+            InstancedCheck();
 
+            QueueRoutine(COROUTINE_SetActiveScene(sceneName));
+        }
+
+        /// <summary> The Action that Quits the Game. </summary>
+        private static void QuittingGame(){ InstancedCheck(); Application.Quit(); }
+            /// <summary> Quits the Game. </summary>
+            public static void QuitGame(){ QuittingGame(); }
+            /// <summary> Quits the Game. </summary>
+            public static void Quit(){ QuittingGame(); }
+            /// <summary> Quits the Game. </summary>
+            public static void QuitApp(){ QuittingGame(); }
+            /// <summary> Quits the Game. </summary>
+            public static void QuitApplication(){ QuittingGame(); }
     #endregion
 
-    // ---------------------------------------------------------
-    // COROUTINES — LOAD / UNLOAD IMPLEMENTATION
-    // ---------------------------------------------------------
     #region Coroutines
-
-    /// <summary>
-    /// Coroutine that loads a scene additively and sets it active.
-    /// </summary>
-    private static IEnumerator COROUTINE_LoadScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-
-        yield return null; // wait one frame
-
-        Scene scene = SceneManager.GetSceneByName(sceneName);
-
-        if (!scene.isLoaded)
+        /// <summary> Loads a scene additively and sets it active. </summary>
+        private static IEnumerator COROUTINE_LoadScene(string sceneName)
         {
-            Debug.LogWarning($"Scene not loaded: {sceneName}");
-            yield break;
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+
+            yield return null; // wait one frame
+
+            Scene scene = SceneManager.GetSceneByName(sceneName);
+
+            if (!scene.isLoaded)
+            {
+                Debug.LogWarning($"Scene not loaded: {sceneName}");
+                yield break;
+            }
+
+            loadedScenes.Add(sceneName);
+            if (debugStatic) Debug.Log($"{sceneName} Scene Loaded!");
+
+            SceneManager.SetActiveScene(scene);
         }
 
-        loadedScenes.Add(sceneName);
-        if (classDebug) Debug.Log($"{sceneName} Scene Loaded!");
-
-        SceneManager.SetActiveScene(scene);
-    }
-
-    /// <summary>
-    /// Coroutine that unloads a scene by name.
-    /// </summary>
-    private static IEnumerator COROUTINE_UnloadScene(string sceneName, Action onSceneUnloaded = null)
-    {
-        Scene scene = SceneManager.GetSceneByName(sceneName);
-
-        if (!scene.isLoaded)
+        /// <summary> Unloads a scene by name. </summary>
+        private static IEnumerator COROUTINE_UnloadScene(string sceneName, Action onSceneUnloaded = null)
         {
-            Debug.LogWarning($"Scene not loaded: {sceneName}");
-            yield break;
+            if (debugStatic){ Debug.Log("Starting Scene Unload"); }
+
+            Scene scene = SceneManager.GetSceneByName(sceneName);
+
+            if (!scene.isLoaded)
+            {
+                Debug.LogWarning($"Scene not loaded: {sceneName}");
+                yield break;
+            }
+
+            yield return SceneManager.UnloadSceneAsync(sceneName);
+
+            if (scene.isLoaded){ Debug.LogWarning($"Scene was not Unloaded: {sceneName}"); yield break; }
+            else if (debugStatic) Debug.Log($"{sceneName} Scene Unloaded!");
+
+            loadedScenes.Remove(sceneName);
+            onSceneUnloaded?.Invoke();
+
+            yield return null;
         }
 
-        yield return SceneManager.UnloadSceneAsync(sceneName);
+        /// <summary> Coroutine that unloads the most recently loaded scene. </summary>
+        private static IEnumerator COROUTINE_UnloadLastScene(Action onSceneUnloaded = null)
+        {
+            string sceneName = loadedScenes[loadedScenes.Count - 1];
+            yield return COROUTINE_UnloadScene(sceneName, onSceneUnloaded);
+        }
 
-        if (classDebug) Debug.Log($"{sceneName} Scene Unloaded!");
+        /// <summary> Coroutine that unloads the earliest loaded scene. </summary>
+        private static IEnumerator COROUTINE_UnloadFirstScene(Action onSceneUnloaded = null)
+        {
+            string sceneName = loadedScenes[0];
+            yield return COROUTINE_UnloadScene(sceneName, onSceneUnloaded);
+        }
 
-        loadedScenes.Remove(sceneName);
-        onSceneUnloaded?.Invoke();
-    }
+        /// <summary> Coroutine that sets the current Active Scene. </summary>
+        private static IEnumerator COROUTINE_SetActiveScene(string sceneName)
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
-    /// <summary>
-    /// Coroutine that unloads the most recently loaded scene.
-    /// </summary>
-    private static IEnumerator COROUTINE_UnloadLastScene(Action onSceneUnloaded = null)
-    {
-        string sceneName = loadedScenes[loadedScenes.Count - 1];
-        yield return COROUTINE_UnloadScene(sceneName, onSceneUnloaded);
-    }
-
-    /// <summary>
-    /// Coroutine that unloads the earliest loaded scene.
-    /// </summary>
-    private static IEnumerator COROUTINE_UnloadFirstScene(Action onSceneUnloaded = null)
-    {
-        string sceneName = loadedScenes[0];
-        yield return COROUTINE_UnloadScene(sceneName, onSceneUnloaded);
-    }
-
-    /// <summary>
-    /// Coroutine that sets the current Active Scene.
-    /// </summary>
-    private static IEnumerator COROUTINE_SetActiveScene(string sceneName)
-    {
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
-        yield return null;
-    }
-
+            yield return null;
+        }
     #endregion
-
 }
+
+
+/* //STOPS MANUAL ADDING
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using UnityEngine;
+
+public class MyComponent : MonoBehaviour
+{
+#if UNITY_EDITOR
+    private void Reset()
+    {
+        if (!Application.isPlaying)
+        {
+            Debug.LogWarning("MyComponent cannot be added manually. Removing.");
+            DestroyImmediate(this);
+        }
+    }
+#endif
+}
+
+*/

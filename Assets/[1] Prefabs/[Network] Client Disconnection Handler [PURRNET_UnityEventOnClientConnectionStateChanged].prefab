@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &585955082040098914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7313554644722368331}
+  - component: {fileID: 5866403782425197495}
+  - component: {fileID: 766598084560263453}
+  m_Layer: 0
+  m_Name: '[Network] Client Disconnection Handler [PURRNET_UnityEventOnClientConnectionStateChanged]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7313554644722368331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585955082040098914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5866403782425197495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585955082040098914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84388a82397ae7f48a9d79b3041f4577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  debug: 0
+  isDDoL: 0
+  onClientConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  onClientConnecting:
+    m_PersistentCalls:
+      m_Calls: []
+  onClientDisconnected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 766598084560263453}
+        m_TargetAssemblyTypeName: SCENE_CallInstance, Assembly-CSharp
+        m_MethodName: ChangeToSceneByName
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '[Testing] win'
+          m_BoolArgument: 0
+        m_CallState: 2
+  onClientDisconnecting:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &766598084560263453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585955082040098914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7efdcedccfdcd14b81e3f7cf06000db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SCENE_CallInstance
+  debug: 1
+  presetScene: start
