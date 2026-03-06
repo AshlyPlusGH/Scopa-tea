@@ -6,15 +6,15 @@ public class PLAYER_Spawner : NetworkBehaviour
     [SerializeField] private GameObject survivor;
     [SerializeField] private GameObject monster;
 
-    protected override void OnSpawned(){ if (isOwner){ CALLRPC_Trigger(); }}
-    public void CALLRPC_Trigger(){ RPC_UPDATESERVER_Trigger(); }
+    protected override void OnSpawned(){ if (isOwner){ CALLRPC_Trigger(PLAYER_Data.playerRole); }}
+    public void CALLRPC_Trigger(ENUM_playerRole role){ RPC_UPDATESERVER_Trigger(role); }
         [ServerRpc]
-        void RPC_UPDATESERVER_Trigger(){ RPC_UPDATECLIENTS_Trigger(); }
+        void RPC_UPDATESERVER_Trigger(ENUM_playerRole role){ RPC_UPDATECLIENTS_Trigger(role); }
         [ObserversRpc]
-        void RPC_UPDATECLIENTS_Trigger(){ Trigger(); }
-        void Trigger()
+        void RPC_UPDATECLIENTS_Trigger(ENUM_playerRole role){ Trigger(role); }
+        void Trigger(ENUM_playerRole role)
         {
-            if (PLAYER_Data.playerRole == ENUM_playerRole.Monster){ SpawnAsMonster(); return; }
+            if (role == ENUM_playerRole.Monster){ SpawnAsMonster(); return; }
             SpawnAsSurvivor();
         }
             void SpawnAsSurvivor()

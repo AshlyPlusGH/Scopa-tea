@@ -7,6 +7,7 @@ public class PLAYER_Data : MonoBehaviour
 
     void Awake()
     {
+        playerRole = ENUM_playerRole.Survivor;
         GetComponent<TMP_Dropdown>().onValueChanged.AddListener(OnChanged);
     }
 

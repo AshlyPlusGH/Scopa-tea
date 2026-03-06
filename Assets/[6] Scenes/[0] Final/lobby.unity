@@ -676,7 +676,6 @@ GameObject:
   - component: {fileID: 1045473778}
   - component: {fileID: 1045473780}
   - component: {fileID: 1045473779}
-  - component: {fileID: 1045473782}
   m_Layer: 0
   m_Name: '[Networking] LobbyManager'
   m_TagString: Untagged
@@ -838,7 +837,19 @@ MonoBehaviour:
       m_Calls: []
   onInitialized:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2145056643}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   onShutdown:
     m_PersistentCalls:
       m_Calls: []
@@ -887,30 +898,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1045473782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1045473777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b0c427b62439954ea01b3ef0e0251c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
-  unityEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1181088661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1527,6 +1514,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959364683}
   m_CullTransparentMesh: 1
+--- !u!1 &2145056643 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 280947748526188721, guid: 96119a4596aa3dc48919f9ebb1f44eb0, type: 3}
+  m_PrefabInstance: {fileID: 8316567173586136727}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4392163907045423740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1667,6 +1659,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1880970642}
     m_Modifications:
+    - target: {fileID: 280947748526188721, guid: 96119a4596aa3dc48919f9ebb1f44eb0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 363717152085065485, guid: 96119a4596aa3dc48919f9ebb1f44eb0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

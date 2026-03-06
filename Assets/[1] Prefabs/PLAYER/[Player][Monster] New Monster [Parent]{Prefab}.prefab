@@ -553,7 +553,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3509819167952747748}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebf834c74c769a748a643742988d32d7, type: 3}
   m_Name: 
@@ -875,6 +875,8 @@ MonoBehaviour:
   raycaster: {fileID: 7525817729201422623}
   survivor: {fileID: 0}
   survivorHitbox: {fileID: 0}
+  monsterAttacker: {fileID: 5182574490566143277}
+  monsterAttackHitbox: {fileID: 1103649802354051444}
 --- !u!114 &-5506923167117169616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,7 +969,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6584875077998625806}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1234d57951da2ca41b1d6b22959b5b9d, type: 3}
   m_Name: 
