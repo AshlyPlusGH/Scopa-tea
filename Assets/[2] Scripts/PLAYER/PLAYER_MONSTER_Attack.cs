@@ -23,12 +23,22 @@ public class PLAYER_MONSTER_Attack : NetworkBehaviour
 
     public void Attack()
     {
-        attacking = true;
-        
-        attacker.SetActive(true);
-        
-        animator.SetTrigger("Attack");
+        if (!isOwner){ return; }
+
+        RPC_UPDATESERVER_Attack();
     }
+        [ServerRpc]
+        private void RPC_UPDATESERVER_Attack(){ RPC_UPDATECLIENTS_Attack(); }
+        [ObserversRpc]
+        private void RPC_UPDATECLIENTS_Attack(){ ACTION_Attack(); }
+        private void ACTION_Attack()
+        {
+            attacking = true;
+            
+            attacker.SetActive(true);
+            
+            animator.SetTrigger("Attack");
+        }
 
         public void OnAttackCompleted()
         {

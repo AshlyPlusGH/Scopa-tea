@@ -420,11 +420,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5794f00a58216ac48ad4fa192dacd5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Pointer
-  survivor: {fileID: 2291480232455771675}
-  survivorHitbox: {fileID: 398727666184999944}
   inventory: {fileID: 2003897842120639247}
   pickup: {fileID: 3963005409359497303}
   raycaster: {fileID: 7525817729201422623}
+  survivor: {fileID: 2291480232455771675}
+  survivorHitbox: {fileID: 398727666184999944}
+  monsterAttacker: {fileID: 0}
+  monsterAttackHitbox: {fileID: 0}
 --- !u!114 &721606314047234091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +490,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8026a248147540d4288da23ca681fa18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PLAYER_Survivor
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  pointer: {fileID: 6248167654754169976}
 --- !u!114 &2003897842120639247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,7 +549,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 928
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1

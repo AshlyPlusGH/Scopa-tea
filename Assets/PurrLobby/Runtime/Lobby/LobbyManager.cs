@@ -20,6 +20,7 @@ namespace PurrLobby
         public SerializableDictionary<string, string> searchRoomArgs = new();
 
         // Events exposed by the manager
+        public UnityEvent OnRoomCreated;
         public UnityEvent<Lobby> OnRoomJoined = new UnityEvent<Lobby>();
         public UnityEvent<string> OnRoomJoinFailed = new UnityEvent<string>();
         public UnityEvent OnRoomLeft = new UnityEvent();
@@ -28,6 +29,7 @@ namespace PurrLobby
         public UnityEvent<List<Lobby>> OnRoomSearchResults = new UnityEvent<List<Lobby>>();
         public UnityEvent<List<FriendUser>> OnFriendListPulled = new UnityEvent<List<FriendUser>>();
         public UnityEvent OnAllReady = new UnityEvent();
+        public UnityEvent OnUnReady = new UnityEvent();
         public UnityEvent<string> OnError = new UnityEvent<string>();
 
         public UnityEvent onInitialized = new UnityEvent();
@@ -147,6 +149,11 @@ namespace PurrLobby
                 _currentLobby = room;
                 OnRoomUpdated?.Invoke(room);
 
+                if (!IsStarting)
+                {
+                    CallOnUnReady();
+                }
+
                 if (!IsStarting && room.Members.TrueForAll(x => x.IsReady))
                 {
                     IsStarting = true; //Prevent calling ready again if lobby is updated after all ready
@@ -240,6 +247,8 @@ namespace PurrLobby
                 var room = await _currentProvider.CreateLobbyAsync(maxPlayers, roomProperties);
                 _currentLobby = room;
                 OnRoomUpdated?.Invoke(room);
+
+                OnRoomCreated.Invoke();
             });
         }
 
@@ -389,6 +398,17 @@ namespace PurrLobby
                 await _currentProvider.SetAllReadyAsync();
 
                 OnAllReady?.Invoke();
+            }
+        }
+
+        private async void CallOnUnReady()
+        {
+            await WaitForAllTasksAsync();
+            if(_currentLobby.IsValid && !_currentLobby.Members.TrueForAll(x => x.IsReady))
+            {
+                await _currentProvider.SetAllReadyAsync();
+
+                OnUnReady?.Invoke();
             }
         }
         

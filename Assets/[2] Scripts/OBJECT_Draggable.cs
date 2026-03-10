@@ -1,6 +1,5 @@
 using UnityEngine;
 using PurrNet;
-using NUnit.Framework;
 
 public class OBJECT_Draggable : NetworkBehaviour
 {
@@ -29,13 +28,13 @@ public class OBJECT_Draggable : NetworkBehaviour
     static string draggableLayerName = "Draggable";
 
     //Addition
-    void Awake(){ Setup(); }
+    protected override void OnSpawned(){ Setup(); }
     void Setup()
     { 
         lr = FindFirstObjectByType<OBJECT_DraggableLineRenderer>().GetComponent<LineRenderer>();
         lineRenderLocation = lr.transform;
 
-        targetCam = Camera.main;
+        targetCam = FindFirstObjectByType<DraggableObjectCameraTag>().GetComponent<Camera>();
         if (targetCam == null){ targetCam = FindFirstObjectByType<Camera>(); }
 
 		if (networkTransform == null) networkTransform = GetComponent<NetworkTransform>();

@@ -1074,6 +1074,7 @@ GameObject:
   - component: {fileID: 559210373}
   - component: {fileID: 559210371}
   - component: {fileID: 559210370}
+  - component: {fileID: 559210375}
   m_Layer: 0
   m_Name: '[Camera] CinemachineBrain/SceneCam'
   m_TagString: Untagged
@@ -1232,6 +1233,18 @@ Transform:
   - {fileID: 934475794}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 15, y: 60, z: 0}
+--- !u!114 &559210375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559210369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2922ced0c1007ea42aae52784279f419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DraggableObjectCameraTag
 --- !u!1001 &566358780
 PrefabInstance:
   m_ObjectHideFlags: 0
